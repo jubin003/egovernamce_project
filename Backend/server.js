@@ -1,0 +1,32 @@
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+
+import noticeRoutes from "./routes/noticeRoutes.js"
+
+
+dotenv.config();
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+
+
+app.get("/", (req, res) => res.send("api are running"));
+
+
+app.use("/api/notice",noticeRoutes);
+
+
+
+
+mongoose
+    .connect(process.env.MONGO_URL)
+    .then(()=>console.log("MONGO DB is connected yeeeeeeeee"))
+    .catch((err)=>console.log("NO conneection: ",err));
+
+const PORT =process.env.PORT;
+app.listen(PORT,()=>console.log('server running on port ${PORT}'));
