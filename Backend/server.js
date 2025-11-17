@@ -3,7 +3,10 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import noticeRoutes from "./routes/noticeRoutes.js"
+import noticeRoutes from "./routes/noticeRoutes.js";
+import pressRoutes from "./routes/pressRoutes.js";
+import publicationRoutes from "./routes/publicationRoutes.js";
+
 
 
 dotenv.config();
@@ -19,6 +22,10 @@ app.get("/", (req, res) => res.send("api are running"));
 
 
 app.use("/api/notice",noticeRoutes);
+app.use("/api/press",pressRoutes);
+app.use("/api/publication",publicationRoutes);
+
+
 
 
 
