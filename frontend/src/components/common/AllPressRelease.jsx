@@ -1,31 +1,25 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SearchBar from '../ui/SearchBar'
 import Button from '../ui/Button'
-import Card from '../ui/Card'
-import { useEffect } from 'react'
-function AllNotices() {
-    // const notices
+import PressReleaseCard from '../ui/PressReleaseCard'
+function AllPressRelease() {
 
-    const[notices,setNotices] =useState([])
 
-    const getNotices = async () => {
-        try{
-           const res = await fetch("http://localhost:5001/api/notice")
-           const data = await res.json()
-           setNotices(data)
-        }
-        catch(error){
-            console.log(error)
-        }
+    const [pressRelease, setPressRelease] = useState([])
+
+    const getPressReleases = async () => {
+        const res = await fetch("http://localhost:5001/api/press")
+        const data = await res.json()
+        setPressRelease(data)
     }
 
-    const categories = ["All","Health","FInance","Education","Transport"]
+    const categories = ["All", "Health", "Education", "Finance", "Transport"]
 
-    useEffect(()=>{
-        getNotices()
-    },[])
-    // const notices = [
+    useEffect(() => {
+        getPressReleases();
+    }, [])
+    // const pressRelease = [
     //     {
     //         title: "Road Maintenance on Ring Road",
     //         category: "Transport",
@@ -73,24 +67,24 @@ function AllNotices() {
     const [selectedCategory, setCategory] = useState("All")
     const [searchTerm, setSearchTerm] = useState("")
 
-    const filteredNotices = notices
+    const filteredPressRelease = pressRelease
         .filter(notice => selectedCategory === "All" || notice.category === selectedCategory)
         .filter(notice => notice.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
     const [page, setPage] = useState(0)
 
-    const NOTICES_PER_PAGE = 4
-    const start = page * NOTICES_PER_PAGE
-    const end = start + NOTICES_PER_PAGE
-    const visibleNotices = filteredNotices.slice(start, end)
-
-    useEffect(()=>{
+    const pressReleasePerPage = 4
+    const start = page * pressReleasePerPage
+    const end = start + pressReleasePerPage
+    const visiblePressRelease = filteredPressRelease.slice(start, end)
+    const totalPages = Math.ceil(filteredPressRelease.length/pressReleasePerPage)
+    useEffect(() => {
         setPage(0)
-    },[searchTerm, selectedCategory])
+    }, [selectedCategory, searchTerm])
     return (
         <div className='px-5 mt-8 flex flex-col space-y-4'>
             <div>
-                <h1 className='font-bold text-[2rem]'>All Notices</h1>
+                <h1 className='font-bold text-[2rem]'>All Press Release</h1>
             </div>
             <div className='flex flex-col space-y-4'>
                 <SearchBar
@@ -106,24 +100,27 @@ function AllNotices() {
                                 setCategory(cat)
                                 setPage(0)
                             }}
+
                         />
                     ))}
+
                 </div>
             </div>
-            <div className='flex flex-col space-y-4'>
-                {visibleNotices.map((notice, index) => {
+            <div className='flex flex-col space-y-4 self-center'>
+                {visiblePressRelease.map((notice, index) => {
                     return (
-                        <Card
+                        <PressReleaseCard
                             key={index}
                             title={notice.title}
-                            category={notice.category}
-                            department={notice.department}
-                            description={notice.description}
+                            category={notice.category} //add category in backend
+                            department={notice.department} //add department in backend
+                            description={notice.summary}
                         />
                     )
                 })}
-                {visibleNotices.length === 0 &&
-                <p>No Notices found.</p>
+                {
+                visiblePressRelease.length === 0 && 
+                <p>No press releases found.</p>
                 }
             </div>
             <div className='flex justify-between'>
@@ -134,12 +131,12 @@ function AllNotices() {
                 />
                 <Button
                     label="Next"
-                    onClick={() => { setPage(page + 1) }}
-                    disabled={end >= filteredNotices.length}
+                    onClick={() => { setPage(prev => Math.min(prev +1, totalPages - 1)) }}
+                    disabled={page >= totalPages - 1}
                 />
             </div>
         </div>
     )
 }
 
-export default AllNotices
+export default AllPressRelease
