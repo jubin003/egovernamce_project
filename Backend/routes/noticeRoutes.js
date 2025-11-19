@@ -4,11 +4,26 @@ import Notice from "../models/Notice.js";
 
 const router = express.Router();
 
+
+router.get("/",async(req,res)=>{
+    try{
+        
+
+        const newNotice=  await Notice.find();
+       
+
+        res.json(newNotice);
+
+    }catch(err){
+        res.json({message:"no notices to show"});
+    }
+});
+
 router.post("/add",async(req,res)=>{
     try{
-        const{ title,description, pdfurl, publisheddate}= req.body;
+        const{ title,description,category, pdfurl, publisheddate}= req.body;
 
-        const newNotice= new Notice({title,description, pdfurl, publisheddate});
+        const newNotice= new Notice({title,description,category, pdfurl, publisheddate});
         await newNotice.save();
 
         res.status(201).json({message: "notice published", newNotice});
@@ -18,7 +33,7 @@ router.post("/add",async(req,res)=>{
     }
 });
 
-router.get("/",async(req,res)=>{
+router.delete("/:id",async(req,res)=>{
     try{
         const notices = await Notice.find();
         res.json(notices);
@@ -26,5 +41,6 @@ router.get("/",async(req,res)=>{
         res.status(500).json({error: err.message});
     }
 });
+
 
 export default router;

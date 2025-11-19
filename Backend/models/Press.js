@@ -4,6 +4,8 @@ const pressreleaseSchema= new mongoose.Schema(
     {
         title: {type: String, required: true},
         summary: { type: String},
+        category:{type: String, required: true},
+        department:{type: String},
         pdfurl: { type:String},
         content: {type:String},
         publisheddate: { type:Date, default:Date.now}
