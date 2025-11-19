@@ -4,12 +4,12 @@ import { NavLink } from 'react-router-dom';
 
 function Navbar() {
   const navItems = [
-    { label: "Home", to: "/Home" },
-    { label: "Notices", to: "/Notices" },
-    { label: "Alerts", to: "/Alerts" },
-    { label: "Departments", to: "/Departments" },
-    { label: "Contact", to: "/Contact" },
-    { label: "About Us", to: "/About-Us" }
+    { label: "Home", to: "/home" },
+    { label: "Notices", to: "/notices" },
+    { label: "Press Release", to: "/press-release" },
+    { label: "Publication", to: "/publication" },
+    { label: "Contact", to: "/contact" },
+    { label: "About Us", to: "/about-Us" }
   ];
 
   return (
@@ -17,8 +17,8 @@ function Navbar() {
       {/* Logo */}
       <NavLink to="/Home">
         <div className="logo flex items-center gap-2 font-semibold text-[#003893]">
-          <FaBuilding size={24} />
-          <div>E-governance Broadcast Portal</div>
+          <img src="assets/Emblem_of_Nepal.png" alt="" width={40}/>
+          <div>Ministry of Finance</div>
         </div>
       </NavLink>
 
