@@ -8,7 +8,7 @@ import Emblem from '../../../public/assets/Emblem_of_nepal.png'
 
 function HeroSection() {
     return (
-        <div className='flex px-8 h-[80vh] items-center bg-gradient-to-b from-white via-red-50 to-red-100'>
+        <div className='flex px-8 h-[80vh] justify-between items-center bg-gradient-to-b from-white via-red-50 to-red-100'>
             {/* Left Section */}
             <div className="left flex flex-col space-y-6">
                 {/* Title */}
@@ -32,7 +32,7 @@ function HeroSection() {
             </div>
 
             {/* Right Section */}
-            <div className="right flex-1">
+            <div className="right ">
                 {/* Right content like image or illustration */}
                 <img src={Emblem} alt="Logo" />
             </div>
