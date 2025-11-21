@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.post("/add",async(req,res)=>{
     try{
-        const{ title,summary, pdfurl,content ,publisheddate}= req.body;
+        const{ title,summary,category,department, pdfurl,content ,publisheddate}= req.body;
 
-        const newPress= new Press({title,summary, pdfurl,content ,publisheddate});
+        const newPress= new Press({title,summary,category,department, pdfurl,content ,publisheddate});
         await newPress.save();
 
         res.status(201).json({message: "press published", newPress});
