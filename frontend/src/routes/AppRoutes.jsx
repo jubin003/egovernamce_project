@@ -13,6 +13,8 @@ import { Dashboard, ManageNotices, ManagePressReleases, ManageReportPublications
 import AdminLayout from "../components/layout/AdminLayout.jsx"
 import AdminLogin from '../pages/AdminLogin.jsx'
 
+
+import ProtectedRoute from "./ProtectedRoute.jsx"
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -25,14 +27,13 @@ const router = createBrowserRouter(
         <Route path="about-us" element={<About />} />
         <Route path="contact" element={<Contact />} />
       </Route>
-      <Route path="/admin" element={<AdminLogin/>}>
-        <Route path='/admin/' element={<AdminLayout />}>
+        <Route path='/admin/login' element={<AdminLogin/>}/>
+        <Route path='/admin' element={<ProtectedRoute><AdminLayout/></ProtectedRoute>}>
           <Route path='dashboard' element={<Dashboard />} />
           <Route path='manage-notices' element={<ManageNotices />} />
           <Route path='manage-press-releases' element={<ManagePressReleases />} />
           <Route path='manage-reports-publishment' element={<ManageReportPublications />} />
         </Route>
-      </Route>
     </>
   )
 )

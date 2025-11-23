@@ -1,25 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiMail, FiLock } from "react-icons/fi";
 import Button from "../components/ui/Button";
 import { NavLink } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+
 export default function AdminLogin() {
 
+    const navigate = useNavigate();
+    const [loginData, setLoginData] = useState({
+        email: "",
+        password: "",
+    })
 
-    const emailRegex = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
 
 
 
 
-    const handleInputChange = asd
+    const handleInputChange = (e) => {
+        setLoginData({
+            ...loginData,
+            [e.target.name]: e.target.value,
+        })
+    }
 
     // handle form submit
     const handleloginreq = async () => {
-        const res = await fetch("http://localhost:5001/api/admin/login", {
-            method: "POST",
-            body: ""
-        })
+        try {
+            const res = await fetch("http://localhost:5001/api/admin/login", {
+                method: "POST",
+                body: JSON.stringify(loginData), 
+            });
 
-    }
+            const data = await res.json();
+
+            if (res.ok) {
+                // save token or login flag
+                localStorage.setItem("adminToken", data.token); 
+
+                // redirect to admin dashboard
+                navigate("/admin/dashboard");
+            } else {
+                alert(data.message || "Login failed");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Something went wrong. Try again.");
+        }
+    };
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 p-4">
@@ -61,10 +89,11 @@ export default function AdminLogin() {
                     </div>
                 </div>
 
-                {/* <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg font-medium shadow-sm transition">
-          Sign In
-        </button> */}
-                <Button label="Sign In" onClick={handleloginreq} />
+
+                <NavLink to="">
+
+                    <Button label="Sign In" onClick={handleloginreq} />
+                </NavLink>
 
                 <NavLink to="/" className="block mt-4 text-blue-700 hover:underline text-sm font-medium">
                     Back to Home
