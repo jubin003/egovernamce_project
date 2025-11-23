@@ -6,7 +6,8 @@ const noticeSchema = new mongoose.Schema(
         category:{type: String, required: true},
         description: {type: String},
         pdfurl: { type: String, required: true},
-        publisheddate: { type: Date, default: Date.now}
+        publisheddate: { type: Date, default: Date.now},
+        department:{type: String},
     },
     {
         timestamps: true

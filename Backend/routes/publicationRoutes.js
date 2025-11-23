@@ -1,10 +1,12 @@
 import express from "express";
 import Publication from "../models/Publication.js";
 
+import { verifyToken } from "../controllers/middleware/auth.js";
+
 
 const router = express.Router();
 
-router.post("/add",async(req,res)=>{
+router.post("/add",verifyToken,async(req,res)=>{
     try{
         const{ title,type,year,month,pdf}= req.body;
 
@@ -18,10 +20,19 @@ router.post("/add",async(req,res)=>{
     }
 });
 
-router.get("/",async(req,res)=>{
+router.get("/",verifyToken,async(req,res)=>{
     try{
         const publishes = await Publication.find();
         res.json(publishes);
+    }catch(err){
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.delete("/:id",verifyToken,async(req,res)=>{
+    try{
+        const pobs = await Publication.find();
+        res.json(pobs);
     }catch(err){
         res.status(500).json({error: err.message});
     }
