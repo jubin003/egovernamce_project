@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState,useEffect } from 'react'
+import { useState,usEffect } from 'react'
 import LatestBroadcast from './LatestBroadcast'
 import Button from '../ui/Button'
 import { NavLink } from 'react-router-dom'

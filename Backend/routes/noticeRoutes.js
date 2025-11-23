@@ -21,9 +21,9 @@ router.get("/",async(req,res)=>{
 
 router.post("/add",async(req,res)=>{
     try{
-        const{ title,description,category, pdfurl, publisheddate}= req.body;
+        const{ title,description,department,category, pdfurl, publisheddate}= req.body;
 
-        const newNotice= new Notice({title,description,category, pdfurl, publisheddate});
+        const newNotice= new Notice({title,description,department,category, pdfurl, publisheddate});
         await newNotice.save();
 
         res.status(201).json({message: "notice published", newNotice});
