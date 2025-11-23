@@ -1,11 +1,12 @@
 import express from "express";
-import Notice from "../models/Notice.js";
+import Notice from "../models/Notice.js"
+import { verifyToken } from "../controllers/middleware/auth.js";
 
 
 const router = express.Router();
 
 
-router.get("/",async(req,res)=>{
+router.get("/",verifyToken,async(req,res)=>{
     try{
         
 
@@ -19,7 +20,7 @@ router.get("/",async(req,res)=>{
     }
 });
 
-router.post("/add",async(req,res)=>{
+router.post("/add",verifyToken,async(req,res)=>{
     try{
         const{ title,description,department,category, pdfurl, publisheddate}= req.body;
 
@@ -33,7 +34,7 @@ router.post("/add",async(req,res)=>{
     }
 });
 
-router.delete("/:id",async(req,res)=>{
+router.delete("/:id",verifyToken,async(req,res)=>{
     try{
         const notices = await Notice.find();
         res.json(notices);

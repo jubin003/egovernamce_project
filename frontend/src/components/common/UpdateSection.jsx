@@ -1,28 +1,27 @@
 import React from 'react'
-import { useState,usEffect } from 'react'
+import { useState, useEffect } from 'react'
 import LatestBroadcast from './LatestBroadcast'
 import Button from '../ui/Button'
 import { NavLink } from 'react-router-dom'
 function UpdateSection() {
 
-   const[updates,setUpdates] =useState([])
+    const [updates, setUpdates] = useState([])
 
-        const getUpdates = async () => {
-            try{
-               const res = await fetch("http://localhost:5001/api/notice")
-               const data = await res.json()
-               setUpdates(data)
-            }
-            catch(error){
-                console.log(error)
-            }
+    const getUpdates = async () => {
+        try {
+            const res = await fetch("http://localhost:5001/api/notice")
+            const data = await res.json()
+            setUpdates(data)
         }
+        catch (error) {
+            console.log(error)
+        }
+    }
 
-        // const categories = ["All","Health","FInance","Education","Transport"]
 
-        useEffect(()=>{
-            getUpdates()
-        },[])
+    useEffect(() => {
+        getUpdates()
+    }, [])
 
     const [selectedUpdate, setSelectedUpdate] = useState("All")
 
@@ -93,17 +92,20 @@ function UpdateSection() {
                         )
                     })
                 }
+                {visibleUpdates.length === 0 &&
+                    <p>No Updates found.</p>
+                }
             </div>
             <div className='flex justify-between'>
-                <Button 
+                <Button
                     label="Previous"
-                    onClick={()=>{setSlide(slide-1)}}
-                    disabled={slide===0}
+                    onClick={() => { setSlide(slide - 1) }}
+                    disabled={slide === 0}
                 />
-                <Button 
+                <Button
                     label="Next"
-                    onClick={()=>{setSlide(slide+1)}}
-                    disabled={end>= filteredUpdates.length}
+                    onClick={() => { setSlide(slide + 1) }}
+                    disabled={end >= filteredUpdates.length}
                 />
             </div>
         </div>

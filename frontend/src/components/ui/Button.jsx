@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Button({ label, type = "primary", color, onClick, disabled }) {
+function Button({ label, type = "primary", color, onClick, disabled, formtype }) {
   const baseClasses = "font-bold px-4 py-2 rounded transition-all";
 
   const typeClasses =
@@ -13,6 +13,7 @@ function Button({ label, type = "primary", color, onClick, disabled }) {
   return (
     <div>
       <button
+        type={formtype || "button"}
         onClick={onClick}          // <-- add this
         disabled={disabled}        // <-- add this for disabling
         className={`${baseClasses} ${typeClasses} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
