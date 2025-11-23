@@ -1,4 +1,4 @@
-import Admin from "../models/Admin";
+import Admin from "../models/Admin.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -16,3 +16,5 @@ export const loginAdmin= async(req, res)=>{
 
         res.json({token});
 }
+
+export default loginAdmin;
