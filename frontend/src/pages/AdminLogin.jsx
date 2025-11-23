@@ -28,19 +28,20 @@ export default function AdminLogin() {
         try {
             const res = await fetch("http://localhost:5001/api/admin/login", {
                 method: "POST",
-                body: JSON.stringify(loginData), 
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(loginData),
             });
 
             const data = await res.json();
 
             if (res.ok) {
-                // save token or login flag
-                localStorage.setItem("adminToken", data.token); 
+                // store token in localStorage
+                localStorage.setItem("adminToken", data.token);
 
-                // redirect to admin dashboard
+                // redirect to dashboard
                 navigate("/admin/dashboard");
             } else {
-                alert(data.message || "Login failed");
+                alert(data.msg || "Login failed");
             }
         } catch (error) {
             console.error(error);
