@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiChevronDown, FiCheck } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 
-function DepartmentDropdown({sendDepart}) {
+function DepartmentDropdown({sendDepart, passSelectedDepart}) {
   const options = ["All Department","Inland Revenue Department","Department of Customs","Treasury Division"];
 
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("Select Department");
 
+
+  useEffect(()=>{
+    setSelected(passSelectedDepart)
+  },[passSelectedDepart])
   return (
     <div className="relative w-auto">
       {/* Selected Box */}

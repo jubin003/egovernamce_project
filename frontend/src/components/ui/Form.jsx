@@ -8,14 +8,14 @@ export default function Form({ heading }) {
 
 
     // Category dropdown bata selected value tanna ko lagi
-    const [categoryData, setCategoryData] = useState("")
+    const [categoryData, setCategoryData] = useState("Select Category")
     const categoryReceived = (cate) => {
         setCategoryData(cate)
     }
 
 
     // Department dropdown bata selected value tanna ko lagi
-    const [departmentData, setDepartmentData] = useState("")
+    const [departmentData, setDepartmentData] = useState("Select Department")
     const departmentReceived = (dep) => {
         setDepartmentData(dep)
     }
@@ -33,6 +33,7 @@ export default function Form({ heading }) {
         pdf_url: "",
     })
 
+    // form data handle
     const handlefieldchange = (e) => {
 
         if (e.target.type === "file") {
@@ -53,19 +54,22 @@ export default function Form({ heading }) {
     }
 
     // clear button ko lagi
-    // const handleClear = () => {
-    //     useEffect(() => {
-    //         setFormData({
-    //             title: "",
-    //             category: categoryData,
-    //             department: departmentData,
-    //             description: "",
-    //             pdf_url: "",
-    //         })
-    //     },[categoryData==="",departmentData===""])
+    const handleClear = () => {
+    //     const title = document.getElementById("form").title.;
+    //     console.log(title);
+        console.log("cleared!")
+        setCategoryData("Select Category");
+        setDepartmentData("Select Department");
 
-
-    // }
+        setFormData({
+            title: "",
+            category: "",
+            department: "",
+            description: "",
+            pdf_url: "",
+        })
+        
+    }
 
     // api call of backend
     const handleSubmit = async (e) => {
@@ -77,10 +81,24 @@ export default function Form({ heading }) {
         formToSend.append("description", formData.description)
         formToSend.append("pdf_url", formData.pdf_url)
 
-        const res = await fetch("http://localhost:5001/api/form", {
-            method: "POST",
-            body: formToSend,
-        })
+        if (heading === "Notice") {
+            const res = await fetch("http://localhost:5001/api/notice", {
+                method: "POST",
+                body: formToSend,
+            })
+        }
+        else if (heading === "Press Releases") {
+            const res = await fetch("http://localhost:5001/api/press-release", {
+                method: "POST",
+                body: formToSend,
+            })
+        }
+        else {
+            const res = await fetch("http://localhost:5001/api/report", {
+                method: "POST",
+                body: formToSend,
+            })
+        }
     }
 
 
@@ -98,12 +116,14 @@ export default function Form({ heading }) {
     useEffect(() => {
         console.log(formData)
     }, [formData])
+
+
     return (
         <div className="bg-white p-8 rounded-xl shadow ">
             <h2 className="text-2xl font-semibold mb-2">Create New {heading}</h2>
             <p className="text-gray-600 mb-6">Fill in the details to publish a new notice</p>
 
-            <form className="space-y-6" >
+            <form className="space-y-6" id="form">
 
                 {/* <!-- Notice Title --> */}
                 <div>
@@ -111,6 +131,7 @@ export default function Form({ heading }) {
                     <input
                         name="title"
                         type="text"
+                        value={formData.title}
                         placeholder={"Enter " + heading + " title"}
                         className="w-full border border-gray-300 rounded-lg p-3 bg-white focus:outline-none focus:ring focus:ring-blue-200"
                         onChange={handlefieldchange}
@@ -123,13 +144,13 @@ export default function Form({ heading }) {
                     {/* <!-- Category --> */}
                     <div>
                         <label className="block font-medium mb-2">Category</label>
-                        <CategoryDropdown sendCateg={categoryReceived} />
+                        <CategoryDropdown sendCateg={categoryReceived} passSelectedCate={categoryData} />
                     </div>
                     {/* <!-- Department --> */}
                     <div>
 
                         <label className="block font-medium mb-2">Department</label>
-                        <DepartmentDropdown sendDepart={departmentReceived} />
+                        <DepartmentDropdown sendDepart={departmentReceived} passSelectedDepart={departmentData} />
                     </div>
 
 
@@ -140,6 +161,7 @@ export default function Form({ heading }) {
                     <label className="block font-medium mb-2">Description</label>
                     <textarea
                         name="description"
+                        value={formData.description}
                         placeholder="Enter detailed description of the notice"
                         className="w-full h-40 border border-gray-300 rounded-lg p-3 bg-white resize-none focus:outline-none focus:ring focus:ring-blue-200"
                         onChange={handlefieldchange}
@@ -153,6 +175,7 @@ export default function Form({ heading }) {
                     <input
                         name="pdf_url"
                         type="file"
+                        // value={formData.pdf_url}
                         className="w-full border border-gray-300 rounded-lg p-3 bg-white focus:outline-none focus:ring focus:ring-blue-200"
                         onChange={handlefieldchange}
                     />
@@ -163,7 +186,7 @@ export default function Form({ heading }) {
                 <div className="flex gap-4">
 
                     <Button label={"Add " + heading} formtype="submit" onClick={handleSubmit} />
-                    <Button label="Clear" type="secondary"  />
+                    <Button label="Clear" type="secondary" onClick={handleClear} />
 
                 </div>
 
