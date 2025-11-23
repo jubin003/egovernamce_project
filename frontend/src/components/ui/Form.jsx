@@ -82,19 +82,19 @@ export default function Form({ heading }) {
         formToSend.append("pdf_url", formData.pdf_url)
 
         if (heading === "Notice") {
-            const res = await fetch("http://localhost:5001/api/notice-add", {
+            const res = await fetch("http://localhost:5001/api/notice/add", {
                 method: "POST",
                 body: formToSend,
             })
         }
         else if (heading === "Press Releases") {
-            const res = await fetch("http://localhost:5001/api/press-release-add", {
+            const res = await fetch("http://localhost:5001/api/press/add", {
                 method: "POST",
                 body: formToSend,
             })
         }
         else {
-            const res = await fetch("http://localhost:5001/api/report-add", {
+            const res = await fetch("http://localhost:5001/api/publication/add", {
                 method: "POST",
                 body: formToSend,
             })
