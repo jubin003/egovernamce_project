@@ -1,10 +1,11 @@
 import express from "express";
 import Press from "../models/Press.js";
+import { verifyToken } from "../controllers/middleware/auth.js";
 
 
 const router = express.Router();
 
-router.post("/add",async(req,res)=>{
+router.post("/add",verifyToken,async(req,res)=>{
     try{
         const{ title,summary,category,department, pdfurl,content ,publisheddate}= req.body;
 
@@ -18,7 +19,16 @@ router.post("/add",async(req,res)=>{
     }
 });
 
-router.get("/",async(req,res)=>{
+router.get("/",verifyToken,async(req,res)=>{
+    try{
+        const presses = await Press.find();
+        res.json(presses);
+    }catch(err){
+        res.status(500).json({error: err.message});
+    }
+});
+
+router.delete("/:id",verifyToken,async(req,res)=>{
     try{
         const presses = await Press.find();
         res.json(presses);
