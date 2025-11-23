@@ -19,7 +19,7 @@ router.post("/add",verifyToken,async(req,res)=>{
     }
 });
 
-router.get("/",verifyToken,async(req,res)=>{
+router.get("/",async(req,res)=>{
     try{
         const presses = await Press.find();
         res.json(presses);

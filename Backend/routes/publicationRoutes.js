@@ -20,7 +20,7 @@ router.post("/add",verifyToken,async(req,res)=>{
     }
 });
 
-router.get("/",verifyToken,async(req,res)=>{
+router.get("/",async(req,res)=>{
     try{
         const publishes = await Publication.find();
         res.json(publishes);

@@ -6,7 +6,7 @@ import { verifyToken } from "../controllers/middleware/auth.js";
 const router = express.Router();
 
 
-router.get("/",verifyToken,async(req,res)=>{
+router.get("/",async(req,res)=>{
     try{
         
 
