@@ -1,12 +1,17 @@
 import React from "react";
 import { FiMail, FiLock } from "react-icons/fi";
 import Button from "../components/ui/Button";
-
+import {NavLink} from "react-router-dom"
 export default function AdminLogin() {
 
 
+    const emailRegex = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
+
+    
+
+
     // handle form submit
-    const handlelogin= async ()=>{
+    const handleloginreq= async ()=>{
         const res= await fetch("http://localhost:5001/api/admin/login",{
             method: "POST",
             body: ""
@@ -36,6 +41,7 @@ export default function AdminLogin() {
               type="email"
               placeholder="admin@example.com"
               className="bg-transparent w-full outline-none text-gray-700 "
+              onChange={handleInputChange}
             />
           </div>
         </div>
@@ -48,6 +54,7 @@ export default function AdminLogin() {
               type="password"
               placeholder="••••••••"
               className="bg-transparent w-full outline-none text-gray-700"
+              onChange={handleInputChange}
             />
           </div>
         </div>
@@ -55,11 +62,11 @@ export default function AdminLogin() {
         {/* <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg font-medium shadow-sm transition">
           Sign In
         </button> */}
-        <Button label="Sign In" onClick={handlelogin}/>
+        <Button label="Sign In" onClick={handleloginreq}/>
 
-        <a href="/" className="block mt-4 text-blue-700 hover:underline text-sm font-medium">
+        <NavLink to="/" className="block mt-4 text-blue-700 hover:underline text-sm font-medium">
           Back to Home
-        </a>
+        </NavLink>
       </div>
     </div>
   );
