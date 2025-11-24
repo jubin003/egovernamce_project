@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CategoryDropdown from "./CategoryDropdown";
-
+import MonthDropDown from "./MonthDropdown";
 import Button from "./Button";
 import DepartmentDropdown from "./DepartmentDropdown";
 import ReportType from "./ReportType";
@@ -27,6 +27,11 @@ export default function Form({ heading }) {
         setReportType(type)
     }
 
+    // month dropdown selection
+    const [mnth,setMonth]=useState("Select Month")
+    const monthReceived= (m)=>{
+        setMonth(m);
+    }
 
     // form submit process
     const [formData, setFormData] = useState({
@@ -36,6 +41,7 @@ export default function Form({ heading }) {
         description: "",
         pdfurl: "",
         type: "",
+        month: "",
     })
 
 
@@ -67,7 +73,8 @@ export default function Form({ heading }) {
         console.log("cleared!")
         setCategoryData("Select Category");
         setDepartmentData("Select Department");
-        setReportType("None")
+        setReportType("None");
+        setMonth("Select month");
 
 
 
@@ -125,6 +132,8 @@ export default function Form({ heading }) {
             formToSend.append("month", formData.month)
             formToSend.append("pdfurl", formData.pdfurl)
 
+            console.log(formToSend)
+
             const res = await fetch("http://localhost:5001/api/publication/add", {
                 method: "POST",
                 body: formToSend,
@@ -144,9 +153,10 @@ export default function Form({ heading }) {
             category: categoryData,
             department: departmentData,
             type: reportType,
+            month: mnth,
         }))
         // console.log(formData)
-    }, [categoryData, departmentData, reportType])
+    }, [categoryData, departmentData, reportType,mnth])
 
     useEffect(() => {
         console.log(formData)
@@ -178,8 +188,12 @@ export default function Form({ heading }) {
 
                         {/* <!-- Category --> */}
                         <div>
-                            <label className="block font-medium mb-2">Category</label>
+                            <label className="block font-medium mb-2">Report Type</label>
                             <ReportType sendReportType={reportTypeReceived} passSelectedType={reportType} />
+                        </div>
+                        <div>
+                            <label className="block font-medium mb-2">Month</label>
+                            <MonthDropDown sendMonth={monthReceived} passSelectedMonth={mnth} />
                         </div>
 
                     </div>
