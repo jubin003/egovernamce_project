@@ -70,7 +70,7 @@ function AllPressRelease() {
                             title={notice.title}
                             category={notice.category} //add category in backend
                             department={notice.department} //add department in backend
-                            description={notice.summary}
+                            description={notice.description} //backend ma summary frontend ma description
                         />
                     )
                 })}
