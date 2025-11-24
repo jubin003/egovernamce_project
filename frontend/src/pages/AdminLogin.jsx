@@ -12,7 +12,8 @@ export default function AdminLogin() {
         password: "",
     })
 
-
+    const [loading, setLoading] = useState(false)
+    const [success, setSuccesss] = useState(false)
 
 
 
@@ -26,6 +27,8 @@ export default function AdminLogin() {
 
     // handle form submit
     const handleloginreq = async () => {
+        setLoading(true);
+
         try {
             const res = await fetch("http://localhost:5001/api/admin/login", {
                 method: "POST",
@@ -39,12 +42,25 @@ export default function AdminLogin() {
                 // store token in localStorage
                 localStorage.setItem("adminToken", data.token);
 
-                // redirect to dashboard
-                navigate("/admin/dashboard");
+                setTimeout(() => {
+                    setLoading(false)
+                    setSuccesss(true);
+
+                    // redirect to dashboard
+                    setTimeout(() => {
+                        navigate("/admin/dashboard");
+                    }, 900);
+
+                }, 1000);
+
+
+
             } else {
+                setLoading(false)
                 alert(data.msg || "Login failed");
             }
         } catch (error) {
+            setLoading(false)
             console.error(error);
             alert("Something went wrong. Try again.");
         }
@@ -53,6 +69,20 @@ export default function AdminLogin() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+            {
+                loading && (
+                    <div className="flex items-center justify-center mb-4">
+                        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                )
+            }
+
+            {success && (
+                <div className="p-3 bg-green-100 text-green-700 rounded-md mb-4 text-center font-semibold">
+                    ✅ Login Successful!
+                </div>
+            )}
+            
             <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-8 text-center">
                 <div className="flex justify-center mb-4">
                     <div className="w-14 h-14 flex items-center justify-center rounded-full bg-blue-50">
