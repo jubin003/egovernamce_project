@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const pressreleaseSchema= new mongoose.Schema(
     {
         title: {type: String, required: true},
-        summary: { type: String},
+        description: { type: String},
         category:{type: String, required: true},
         department:{type: String},
         pdfurl: { type:String},

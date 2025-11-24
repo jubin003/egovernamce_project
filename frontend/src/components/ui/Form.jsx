@@ -93,18 +93,28 @@ export default function Form({ heading }) {
         formToSend.append("category", formData.category)
         formToSend.append("department", formData.department)
         formToSend.append("description", formData.description)
-        formToSend.append("pdfurl", formData.pdfurl)
+        formToSend.append("pdf_url", formData.pdf_url)
+        const token = localStorage.getItem("adminToken");
 
         if (heading === "Notice") {
+            
             const res = await fetch("http://localhost:5001/api/notice/add", {
                 method: "POST",
                 body: formToSend,
+                headers: {
+                Authorization: `Bearer ${token}`, 
+            },
             })
+            
         }
         else if (heading === "Press Releases") {
+
             const res = await fetch("http://localhost:5001/api/press/add", {
                 method: "POST",
                 body: formToSend,
+                headers: {
+                Authorization: `Bearer ${token}`, 
+            },
             })
         }
         else {
@@ -118,6 +128,9 @@ export default function Form({ heading }) {
             const res = await fetch("http://localhost:5001/api/publication/add", {
                 method: "POST",
                 body: formToSend,
+                headers: {
+                Authorization: `Bearer ${token}`, 
+            },
             })
         }
     }
