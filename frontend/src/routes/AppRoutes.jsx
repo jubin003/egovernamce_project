@@ -29,6 +29,7 @@ const router = createBrowserRouter(
       </Route>
         <Route path='/admin/login' element={<AdminLogin/>}/>
         <Route path='/admin' element={<ProtectedRoute><AdminLayout/></ProtectedRoute>}>
+          <Route index element={<Dashboard />}/>
           <Route path='dashboard' element={<Dashboard />} />
           <Route path='manage-notices' element={<ManageNotices />} />
           <Route path='manage-press-releases' element={<ManagePressReleases />} />
