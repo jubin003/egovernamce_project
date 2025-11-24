@@ -1,13 +1,25 @@
 import express from "express";
 import Press from "../models/Press.js";
 import { verifyToken } from "../controllers/middleware/auth.js";
+import multer from "multer";
 
 
 const router = express.Router();
+const storage= multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,"uploadpdf/");
+    },
+    filename:(req,file,cb)=>{
+        cb(null,Date.now()+ "-"+file.originalname);
+    },
+});
+const upload = multer({storage});
 
-router.post("/add",verifyToken,async(req,res)=>{
+router.post("/add",verifyToken,upload.single("pdf_url"),async(req,res)=>{
     try{
-        const{ title,summary,category,department, pdfurl,content ,publisheddate}= req.body;
+        const{ title,summary,category,department,content ,publisheddate}= req.body;
+        const pdfurl= req.file ? req.file.path :"";
+
 
         const newPress= new Press({title,summary,category,department, pdfurl,content ,publisheddate});
         await newPress.save();
@@ -19,7 +31,7 @@ router.post("/add",verifyToken,async(req,res)=>{
     }
 });
 
-router.get("/",verifyToken,async(req,res)=>{
+router.get("/",async(req,res)=>{
     try{
         const presses = await Press.find();
         res.json(presses);

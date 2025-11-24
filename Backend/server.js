@@ -6,7 +6,8 @@ import dotenv from "dotenv";
 import noticeRoutes from "./routes/noticeRoutes.js";
 import pressRoutes from "./routes/pressRoutes.js";
 import publicationRoutes from "./routes/publicationRoutes.js";
-import userRoutes from "./routes/userRoutes.js"
+import userRoutes from "./routes/userRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 
 
@@ -26,6 +27,8 @@ app.use("/api/notice",noticeRoutes);
 app.use("/api/press",pressRoutes);
 app.use("/api/publication",publicationRoutes);
 app.use("/api/user",userRoutes);
+app.use("/api/admin",adminRoutes)
+
 
 
 

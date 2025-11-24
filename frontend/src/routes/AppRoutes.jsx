@@ -9,9 +9,12 @@ import Contact from '../pages/Contact.jsx'
 import Publication from '../pages/Publication.jsx'
 import PressRelease from '../pages/PressRelease.jsx'
 
-import {Dashboard, ManageNotices, ManagePressReleases, ManageReportPublications} from "../components/common/AdminExport"
+import { Dashboard, ManageNotices, ManagePressReleases, ManageReportPublications } from "../components/common/AdminExport"
 import AdminLayout from "../components/layout/AdminLayout.jsx"
+import AdminLogin from '../pages/AdminLogin.jsx'
 
+
+import ProtectedRoute from "./ProtectedRoute.jsx"
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -24,12 +27,14 @@ const router = createBrowserRouter(
         <Route path="about-us" element={<About />} />
         <Route path="contact" element={<Contact />} />
       </Route>
-      <Route path="/admin/" element={<AdminLayout />}>
-        <Route path='dashboard' element={<Dashboard/>}/>
-        <Route path='manage-notices' element={<ManageNotices/>}/>
-        <Route path='manage-press-releases' element={<ManagePressReleases/>}/>
-        <Route path='manage-reports-publishment' element={<ManageReportPublications/>}/>
-      </Route>
+        <Route path='/admin/login' element={<AdminLogin/>}/>
+        <Route path='/admin' element={<ProtectedRoute><AdminLayout/></ProtectedRoute>}>
+          <Route index element={<Dashboard />}/>
+          <Route path='dashboard' element={<Dashboard />} />
+          <Route path='manage-notices' element={<ManageNotices />} />
+          <Route path='manage-press-releases' element={<ManagePressReleases />} />
+          <Route path='manage-reports-publishment' element={<ManageReportPublications />} />
+        </Route>
     </>
   )
 )
