@@ -2,9 +2,19 @@ import express from "express";
 import Notice from "../models/Notice.js"
 import { verifyToken } from "../controllers/middleware/auth.js";
 
+import multer from "multer";
+
 
 const router = express.Router();
-
+const storage= multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,"uploadpdf/");
+    },
+    filename:(req,file,cb)=>{
+        cb(null,Date.now()+ "-"+file.originalname);
+    },
+});
+const upload = multer({storage});
 
 router.get("/",async(req,res)=>{
     try{
@@ -20,9 +30,10 @@ router.get("/",async(req,res)=>{
     }
 });
 
-router.post("/add",verifyToken,async(req,res)=>{
+router.post("/add",verifyToken,upload.single("pdf_url"),async(req,res)=>{
     try{
-        const{ title,description,department,category, pdfurl, publisheddate}= req.body;
+        const{ title,description,department,category, publisheddate}= req.body;
+        const pdfurl= req.file ? req.file.path :"";
 
         const newNotice= new Notice({title,description,department,category, pdfurl, publisheddate});
         await newNotice.save();
@@ -30,7 +41,7 @@ router.post("/add",verifyToken,async(req,res)=>{
         res.status(201).json({message: "notice published", newNotice});
 
     }catch(err){
-        res.status(500).json({error: err.message});
+        res.status(500).json({error: err.message}); 
     }
 });
 
