@@ -3,6 +3,7 @@ import { FiMail, FiLock } from "react-icons/fi";
 import Button from "../components/ui/Button";
 import { NavLink } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
+import SuccessfulLogin from "../components/ui/SuccessfulLogin";
 
 export default function AdminLogin() {
 
@@ -68,13 +69,11 @@ export default function AdminLogin() {
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+        <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-gray-50 to-gray-100 p-4">
 
 
             {success === true ? (
-                <div className="p-3 bg-green-100 text-green-700 rounded-md mb-4 text-center font-semibold">
-                    ✅ Login Successful!
-                </div>
+                <SuccessfulLogin/>
             ) :
                 (
                     <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-8 text-center space-y-3">
