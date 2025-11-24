@@ -70,6 +70,7 @@ export default function AdminLogin() {
                         <FiMail className="w-5 h-5 text-gray-500 mr-2" />
                         <input
                             type="email"
+                            name="email"
                             placeholder="admin@example.com"
                             className="bg-transparent w-full outline-none text-gray-700 "
                             onChange={handleInputChange}
@@ -83,6 +84,7 @@ export default function AdminLogin() {
                         <FiLock className="w-5 h-5 text-gray-500 mr-2" />
                         <input
                             type="password"
+                            name="password"
                             placeholder="••••••••"
                             className="bg-transparent w-full outline-none text-gray-700"
                             onChange={handleInputChange}
