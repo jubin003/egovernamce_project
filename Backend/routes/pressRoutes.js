@@ -17,11 +17,11 @@ const upload = multer({storage});
 
 router.post("/add",verifyToken,upload.single("pdf_url"),async(req,res)=>{
     try{
-        const{ title,summary,category,department,content ,publisheddate}= req.body;
+        const{ title,description,category,department,content ,publisheddate}= req.body;
         const pdfurl= req.file ? req.file.path :"";
 
 
-        const newPress= new Press({title,summary,category,department, pdfurl,content ,publisheddate});
+        const newPress= new Press({title,description,category,department, pdfurl,content ,publisheddate});
         await newPress.save();
 
         res.status(201).json({message: "press published", newPress});
