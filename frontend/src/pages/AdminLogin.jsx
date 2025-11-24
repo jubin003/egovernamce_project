@@ -21,6 +21,7 @@ export default function AdminLogin() {
             ...loginData,
             [e.target.name]: e.target.value,
         })
+        console.log(loginData)
     }
 
     // handle form submit
